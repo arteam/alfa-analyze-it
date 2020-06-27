@@ -11,7 +11,7 @@ import java.util.Map;
 public interface UserAnalytics {
     String userId();
 
-    double totalSum();
+    BigDecimal totalSum();
 
-    Map<String, AnalyticsInfo> analyticInfo();
+    Map<Long, AnalyticsInfo> analyticInfo();
 }

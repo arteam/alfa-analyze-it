@@ -31,6 +31,7 @@ public class RawPaymentsConsumer {
             e.printStackTrace();
         }*/
         try {
+            System.out.println(message);
             userPayments.add(objectMapper.readValue(message, UserPayment.class));
         } catch (JsonProcessingException e) {
             e.printStackTrace();

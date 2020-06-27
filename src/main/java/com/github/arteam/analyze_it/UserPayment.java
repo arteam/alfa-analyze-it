@@ -3,6 +3,8 @@ package com.github.arteam.analyze_it;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.immutables.value.Value;
 
+import java.math.BigDecimal;
+
 @Value.Immutable
 @JsonDeserialize(as = ImmutableUserPayment.class)
 public interface UserPayment {
@@ -11,9 +13,9 @@ public interface UserPayment {
 
     String userId();
 
-    String recipientId();
+    long categoryId();
 
     String desc();
 
-    double amount();
+    BigDecimal amount();
 }
