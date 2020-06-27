@@ -60,6 +60,9 @@
                 <artifactId>jib-maven-plugin</artifactId>
                 <version>2.4.0</version>
                 <configuration>
+                    <container>
+                        <mainClass>com.github.arteam.analyze_it.AnalyzeItApplication</mainClass>
+                    </container>
                     <to>
                         <image>registry.hub.docker.com/arteam/alfa-analyze-it</image>
                     </to>
