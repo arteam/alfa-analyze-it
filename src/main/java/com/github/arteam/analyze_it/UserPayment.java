@@ -13,6 +13,8 @@ public interface UserPayment {
 
     String userId();
 
+    String recipientId();
+
     long categoryId();
 
     String desc();

@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 @RestController
@@ -62,7 +61,27 @@ public class AnalyticsController {
     @GetMapping("analytic/{userId}/templates")
     public ResponseEntity<?> reportAnalyticsTemplate(@PathVariable("userId") String userId) {
         System.out.println("Get analytics template by user " + userId);
-        return ResponseEntity.status(404).build();
+        List<UserPayment> userPayments = rawPaymentsConsumer.getUserPayments();
+        List<ImmutableTemplate> templates = userPayments.stream()
+                .filter(up -> up.userId().equals(userId))
+                .map(up -> ImmutableTemplate.builder()
+                        .recipientId(up.recipientId())
+                        .categoryId(up.categoryId())
+                        .amount(up.amount())
+                        .build())
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
+                .entrySet()
+                .stream()
+                .filter(e -> e.getValue() >= 3)
+                .map(e -> e.getKey())
+                .collect(Collectors.toList());
+        if (!templates.isEmpty()) {
+            return ResponseEntity.ok(templates);
+        } else {
+            return ResponseEntity.status(404).body(ImmutableStatusResponse.builder()
+                    .status("user not found")
+                    .build());
+        }
     }
 
     @GetMapping("analytic/{userId}/stats")
